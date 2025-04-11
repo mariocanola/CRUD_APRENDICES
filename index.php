@@ -23,7 +23,8 @@
                             <tr class="text-center">
                                 <th scope="col">No.</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Edad</th>
+                                <th scope="col">Tipo de documento</th>
+                                <th scope="col">Documento</th>
                                 <th colspan="3" scope="col">Opciones</th>
                             </tr>
                         </thead>
@@ -37,11 +38,7 @@
                             while ($row = mysqli_fetch_array($resultado)) {
                                 $id = $row['id'];
                                 $nombre = $row['nombre'];
-                                $fecha_nacimiento = $row['fecha_nacimiento'];
-                                $obj = new DateTime($fecha_nacimiento);
-                                $hoy = new DateTime();
-                                $edad = $hoy->diff($obj)->y; // Calcular la edad
-
+                            
                                 echo "<tr class='text-center'>";
                                 echo "<th scope='row'>$contador</th>";
                                 echo "<td>$nombre</td>";

@@ -1,17 +1,17 @@
 <?php
 
 $server = "localhost";
-$database = "prueba_db";
+$database = "crud_aprendices";
 $usuario = "root";
-$contrasenia = "";
+$contrasena = "";
 
-$conexion = mysqli_connect($server, $usuario, $contrasenia, $database);
+$conexion = mysqli_connect($server, $usuario, $contrasena, $database);
 
 try {
     if (!$conexion) {
         throw new Exception("Error de conexión: " . mysqli_connect_error());
     } else {
-        // echo "Conexión exitosa a la base de datos.";
+        echo "Conexión exitosa a la base de datos.";
     }
 } catch (Exception $e) {
     echo $e->getMessage();

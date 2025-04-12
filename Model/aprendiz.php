@@ -7,7 +7,7 @@ class Aprendices
 
     public function __construct()
     {
-        $this->db = Database::connect();
+        $this->db = (new Database())->connect();
     }
 
     public function ObtenerPersonas()

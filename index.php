@@ -14,49 +14,20 @@
             <div class="row">
                 <div class="col">
                     <h1 class="text-center">Lista de Aprendices</h1>
-                    <div class="text-center mb-3">
-                        <a href="crear.php" class="btn btn-sm btn-primary">Crear Aprendiz</a>
-                    </div>
-
                     <table class="table table-sm table-hover table-responsive">
                         <thead>
                             <tr class="text-center">
                                 <th scope="col">No.</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Tipo de documento</th>
+                                <th scope="col">Programa de formación</th>
                                 <th scope="col">Documento</th>
                                 <th colspan="3" scope="col">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            include 'conexion.php';
-                            $sql = "SELECT * FROM aprendices";
-                            $resultado = mysqli_query($conexion, $sql);
-                            $contador = 1;
-
-                            while ($row = mysqli_fetch_array($resultado)) {
-                                $id = $row['id'];
-                                $nombre = $row['nombre'];
-                            
-                                echo "<tr class='text-center'>";
-                                echo "<th scope='row'>$contador</th>";
-                                echo "<td>$nombre</td>";
-                                echo "<td>$edad años</td>";
-                                echo "<td>";
-                                echo "<a href='ver.php?id=$id&nombre=$nombre' class='btn btn-info btn-sm'>Ver</a>";
-                                echo "</td>";
-                                echo "<td>";
-                                echo "<a href='editar.php?id=$id' class='btn btn-warning btn-sm'>Editar</a>";
-                                echo "</td>";
-                                echo "<td>";
-                                echo "<a href='delete.php?id=$id' class='btn btn-danger btn-sm'>Eliminar</a>";
-                                echo "</td>";
-                                echo "</tr>";
-                                $contador++;
-                            }
-                            mysqli_close($conexion);
-                            ?>
+                            <tr>
+                                
+                            </tr>
                         </tbody>
                     </table>
                 </div>

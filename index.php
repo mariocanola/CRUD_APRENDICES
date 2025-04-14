@@ -22,7 +22,7 @@ $aprendices = $aprendizModel->obtenerAprendices();
     <div class="container mt-4">
         <div class="text-center alert alert-primary">Lista de aprendices</div>
         <div class="mb-3 text-center">
-            <a href="view/crear.php" class="btn btn-success">
+            <a href="CRUD_APRENDICES\view\crear.php"  target="_blank" class="btn btn-success">
                 <i class="fas fa-user-plus"></i> Crear nueva persona
             </a>
         </div>

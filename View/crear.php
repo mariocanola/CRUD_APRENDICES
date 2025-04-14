@@ -3,7 +3,7 @@ require_once '../Model/conexion.php';
 require_once '../Model/aprendiz.php';
 
 $model = new Aprendices();
-$roles = $model->obtenerRoles(); // Debes tener este método implementado
+$roles = $model->obtenerRoles(); 
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +11,7 @@ $roles = $model->obtenerRoles(); // Debes tener este método implementado
 
 <head>
     <meta charset="UTF-8">
-    <title>Crear Aprendiz</title>
+    <title>Crear Persona</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -20,7 +20,7 @@ $roles = $model->obtenerRoles(); // Debes tener este método implementado
     <div class="container mt-5">
         <h2 class="mb-4 text-center text-primary">Registrar Nueva Persona</h2>
 
-        <form action="../Controllers/ControllerAprendices.php?action=store" method="POST" class="bg-white p-4 rounded shadow-sm">
+        <form action="../Controllers/ControllerAprendiz.php?action=store" method="POST" class="bg-white p-4 rounded shadow-sm">
             <div class="mb-3">
                 <label for="rol" class="form-label">Asignación de Rol</label>
                 <select name="id_rol" id="rol" class="form-select" required>

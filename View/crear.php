@@ -62,7 +62,25 @@ $roles = $model->obtenerRoles();
                     <label for="documento" class="form-label">N° Documento</label>
                     <input type="text" class="form-control" id="documento" name="documento" required>
                 </div>
+                
+                <div class="col-3 mb-3">
+                    <label for="sexo" class="form-label">Sexo</label>
+                    <input type="text" class="form-control" id="sexo" name="sexo" required>
+                </div>
+
             </div>
+            <div>
+                <div class="col-3 mb-3">
+                    <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+                    <input type="text" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                </div>
+    
+                <div class="col-3 mb-3">
+                    <label for="tipo_sangre" class="form-label">Tipo de Sangre</label>
+                    <input type="text" class="form-control" id="tipo_sangre" name="tipo_sangre" required>
+                </div>
+            </div>
+
             <button type="submit" class="btn btn-primary">
                 <i class="fas fa-save"></i> Guardar
             </button>

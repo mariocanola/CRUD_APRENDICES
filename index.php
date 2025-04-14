@@ -1,6 +1,7 @@
 <?php
-// filepath: c:\laragon\www\CRUD_APRENDICES\index.php
+
 require_once 'model/aprendiz.php';
+require_once 'model/conexion.php';
 
 $aprendizModel = new Aprendices();
 $aprendices = $aprendizModel->obtenerAprendices();
@@ -42,17 +43,19 @@ $aprendices = $aprendizModel->obtenerAprendices();
                         <td><?php echo $datos['nombre_completo']; ?></td>
                         <td><?php echo $datos['programa']; ?></td>
                         <td>
-                            <button class="btn btn-success">
+                            <a href="view/ver.php?id=<?= $datos['id_persona'] ?>" target="_blank" class="btn btn-success">
                                 <i class="fas fa-eye"></i> Ver
-                            </button>
+                            </a>
 
                             <button class="btn btn-warning">
                                 <i class="fas fa-edit"></i> Editar
                             </button>
 
-                            <button class="btn btn-danger">
+                            <a href="controllers/ControllerAprendiz.php?action=delete&id=<?= $datos['id_persona'] ?>"
+                                onclick="return confirm('¿Seguro que deseas eliminar este aprendiz?')"
+                                class="btn btn-danger">
                                 <i class="fas fa-trash-alt"></i> Eliminar
-                            </button>
+                            </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

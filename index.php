@@ -1,3 +1,11 @@
+<?php
+// filepath: c:\laragon\www\CRUD_APRENDICES\index.php
+require_once 'model/aprendiz.php';
+
+$aprendizModel = new Aprendices();
+$aprendices = $aprendizModel->obtenerAprendices();
+?>
+
 <!doctype html>
 <html lang="es">
 
@@ -5,17 +13,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lista || aprendices || Sena</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/03a89292db.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <div class="container mt-4">
         <div class="text-center alert alert-primary">Lista de aprendices</div>
-        <div class="mb-3">
-            <button class="btn btn-success text-center">
+        <div class="mb-3 text-center">
+            <a href="view/crear.php" class="btn btn-success">
                 <i class="fas fa-user-plus"></i> Crear nueva persona
-            </button>
+            </a>
         </div>
 
         <table class="table table-striped table-bordered">
@@ -28,29 +36,14 @@
                 </tr>
             </thead>
             <tbody class="text-center">
-                <?php
-                include("model/conexion.php");
-                $conexion = (new Database())->connect();
-                $consulta = $conexion->query("
-                    SELECT 
-                        p.id_persona, 
-                        CONCAT(p.primer_nombre, ' ', IFNULL(p.segundo_nombre, ''), ' ', p.primer_apellido, ' ', IFNULL(p.segundo_apellido, '')) AS nombre_completo, 
-                        pr.nombre AS programa 
-                    FROM persona p 
-                    JOIN aprendiz a ON p.id_persona = a.id_persona 
-                    JOIN aprendiz_programa ap ON a.id_aprendiz = ap.id_aprendiz 
-                    JOIN programa pr ON ap.id_programa = pr.id_programa;
-                ");
-
-                while ($datos = $consulta->fetch(PDO::FETCH_ASSOC)) {
-                ?>
+                <?php foreach ($aprendices as $datos): ?>
                     <tr>
                         <td><?php echo $datos['id_persona']; ?></td>
                         <td><?php echo $datos['nombre_completo']; ?></td>
                         <td><?php echo $datos['programa']; ?></td>
                         <td>
                             <button class="btn btn-success">
-                            <i class="fas fa-eye"></i> Ver
+                                <i class="fas fa-eye"></i> Ver
                             </button>
 
                             <button class="btn btn-warning">
@@ -62,9 +55,7 @@
                             </button>
                         </td>
                     </tr>
-                <?php
-                }
-                ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>

@@ -1,13 +1,29 @@
 <?php
-require_once '../Model/conexion.php';
 require_once '../Model/aprendices.php';
+require_once '../Model/conexion.php';
 
-$model = new Aprendices();
-$roles = $model->obtenerRoles();
-$sexo = $model->obtenerSexo();
-$tipo_documento = $model->obtenerTipoDocumento();
-$tipo_sangre = $model->obtenerTipoSanguineo();
-$programas = $model->obtenerProgramas();
+$id_aprendiz = $_GET['id'] ?? null;
+
+if ($id_aprendiz) {
+    $aprendicesModel = new Aprendices();
+    $aprendiz = $aprendicesModel->obtenerAprendizPorID($id_aprendiz);
+
+    // Verificar si el aprendiz existe
+    if (!$aprendiz) {
+        header('Location: ../Controller/ControllerAprendices.php?action=listaAprendices&status=error');
+        exit;
+    }
+
+    // Obtener listas de roles, programas, tipos de documento, sexo y tipos de sangre
+    $roles = $aprendicesModel->obtenerRoles();
+    $programas = $aprendicesModel->obtenerProgramas();
+    $tipo_documento = $aprendicesModel->obtenerTipoDocumento();
+    $sexo = $aprendicesModel->obtenerSexo();
+    $tipo_sangre = $aprendicesModel->obtenerTipoSanguineo();
+} else {
+    header('Location: ../Controller/ControllerAprendices.php?action=listaAprendices&status=error');
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -15,16 +31,18 @@ $programas = $model->obtenerProgramas();
 
 <head>
     <meta charset="UTF-8">
-    <title>Crear Persona</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Aprendiz</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="bg-light">
-
     <div class="container mt-5">
-        <h2 class="mb-4 text-center text-primary">Registrar Nueva Persona</h2>
+        <h2 class="mb-4 text-center text-primary">Actualizar Aprendiz</h2>
 
-        <form action="../Controller/ControllerAprendices.php?action=almacenar" method="POST" class="bg-white p-4 rounded shadow-sm">
+        <form action="../Controller/ControllerAprendices.php?action=actualizar" method="POST" class="bg-white p-4 rounded shadow-sm">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($aprendiz['id_aprendiz'] ?? '') ?>">
             <div class="mb-3">
                 <label for="rol" class="form-label">Asignación de Rol</label>
                 <select name="id_rol" id="rol" class="form-select" required>
@@ -131,14 +149,29 @@ $programas = $model->obtenerProgramas();
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-save"></i> Guardar
-            </button>
+
+            <button type="submit" class="btn btn-primary">Actualizar</button>
             <a href="ControllerAprendices.php?action=listaAprendices" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 
-    <script src="https://kit.fontawesome.com/03a89292db.js" crossorigin="anonymous"></script>
+    <script>
+        <?php if (isset($_GET['status']) && $_GET['status'] === 'success'): ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Actualización exitosa',
+                text: 'El aprendiz ha sido actualizado correctamente.',
+                confirmButtonText: 'Aceptar'
+            });
+        <?php elseif (isset($_GET['status']) && $_GET['status'] === 'error'): ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un problema al actualizar el aprendiz.',
+                confirmButtonText: 'Aceptar'
+            });
+        <?php endif; ?>
+    </script>
 </body>
 
 </html>

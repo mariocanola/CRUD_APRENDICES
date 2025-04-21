@@ -1,6 +1,6 @@
 <?php
 
-require_once 'model/aprendiz.php';
+require_once 'model/aprendices.php';
 require_once 'model/conexion.php';
 
 $aprendizModel = new Aprendices();
@@ -22,7 +22,7 @@ $aprendices = $aprendizModel->obtenerAprendices();
     <div class="container mt-4">
         <div class="text-center alert alert-primary">Lista de aprendices</div>
         <div class="mb-3 text-center">
-            <a href="CRUD_APRENDICES\view\crear.php"  target="_blank" class="btn btn-success">
+            <a href="/CRUD_APRENDICES/view/crear.php"  target="_blank" class="btn btn-success">
                 <i class="fas fa-user-plus"></i> Crear nueva persona
             </a>
         </div>
@@ -37,27 +37,30 @@ $aprendices = $aprendizModel->obtenerAprendices();
                 </tr>
             </thead>
             <tbody class="text-center">
-                <?php foreach ($aprendices as $datos): ?>
-                    <tr>
-                        <td><?php echo $datos['id_persona']; ?></td>
-                        <td><?php echo $datos['nombre_completo']; ?></td>
-                        <td><?php echo $datos['programa']; ?></td>
-                        <td>
-                            <a href="view/ver.php?id=<?= $datos['id_persona'] ?>" target="_blank" class="btn btn-success">
-                                <i class="fas fa-eye"></i> Ver
-                            </a>
+            
+                <?php 
+                    if (!empty($aprendices))
+                    foreach ($aprendices as $datos): ?>
+                        <tr>
+                            <td><?php echo $datos['id_persona']; ?></td>
+                            <td><?php echo $datos['nombre_completo']; ?></td>
+                            <td><?php echo $datos['programa']; ?></td>
+                            <td>
+                                <a href="view/ver.php?id=<?= $datos['id_persona'] ?>" target="_blank" class="btn btn-success">
+                                    <i class="fas fa-eye"></i> Ver
+                                </a>
 
-                            <button class="btn btn-warning">
-                                <i class="fas fa-edit"></i> Editar
-                            </button>
+                                <a href="../view/actualizar.php?id=<?= $datos['id_persona'] ?>" target="_blank" class="btn btn-warning">
+                                    <i class="fas fa-user-edit"></i> Editar
+                                </a>
 
-                            <a href="controllers/ControllerAprendiz.php?action=delete&id=<?= $datos['id_persona'] ?>"
-                                onclick="return confirm('¿Seguro que deseas eliminar este aprendiz?')"
-                                class="btn btn-danger">
-                                <i class="fas fa-trash-alt"></i> Eliminar
-                            </a>
-                        </td>
-                    </tr>
+                                <a href="controllers/ControllerAprendiz.php?action=delete&id=<?= $datos['id_persona'] ?>"
+                                    onclick="return confirm('¿Seguro que deseas eliminar este aprendiz?')"
+                                    class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                </a>
+                            </td>
+                        </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>

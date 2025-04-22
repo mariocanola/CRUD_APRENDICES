@@ -220,15 +220,6 @@ class Aprendices
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function obtenerAprendizPorID($id_aprendiz)
-    {
-        $sql = "SELECT * FROM aprendiz WHERE id_aprendiz = :id_aprendiz";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':id_aprendiz', $id_aprendiz, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
     public function obtenerUltimoId()
     {
         try {

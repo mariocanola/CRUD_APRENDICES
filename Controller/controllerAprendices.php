@@ -14,7 +14,7 @@ class ControllerAprendices
 
     public function manejarSolicitud()
     {
-        $allowedActions = ['listaAprendices', 'almacenar', 'eliminar'];
+        $allowedActions = ['listaAprendices', 'almacenar', 'eliminar', 'actualizar'];
         $action = $_GET['action'] ?? 'listaAprendices';
 
         if (!in_array($action, $allowedActions)) {
@@ -42,46 +42,27 @@ class ControllerAprendices
 
     public function actualizarAprendiz()
     {
-        if($_SERVER['REQUEST_METHOD'] === 'POST'){
-            $id = $_POST['id'] ?? null;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $datos = [
-                'primer_nombre' => $_POST['primer_nombre'] ?? '',
-                'segundo_nombre' => $_POST['segundo_nombre'] ?? '',
-                'primer_apellido' => $_POST['primer_apellido'] ?? '',
-                'segundo_apellido' => $_POST['segundo_apellido'] ?? '',
+                'id_aprendiz'       => $_POST['id'] ?? null,
+                'primer_nombre'     => $_POST['primer_nombre'] ?? '',
+                'segundo_nombre'    => $_POST['segundo_nombre'] ?? '',
+                'primer_apellido'   => $_POST['primer_apellido'] ?? '',
+                'segundo_apellido'  => $_POST['segundo_apellido'] ?? '',
                 'id_tipo_documento' => $_POST['tipo_documento'] ?? '',
-                'documento' => $_POST['documento'] ?? '',
-                'id_sexo' => $_POST['id_sexo'] ?? '',
-                'fecha_nacimiento' => $_POST['fecha_nacimiento'] ?? '',
-                'id_sanguineo' => $_POST['id_sanguineo'] ?? ''
+                'documento'         => $_POST['documento'] ?? '',
+                'id_sexo'           => $_POST['id_sexo'] ?? '',
+                'fecha_nacimiento'  => $_POST['fecha_nacimiento'] ?? '',
+                'id_sanguineo'      => $_POST['id_sanguineo'] ?? ''
             ];
 
-            foreach ($datos as $key => $value) {
-                if (empty($value)) {
-                    echo "El campo $key es obligatorio.";
-                    return;
-                }
-            }
-
-            if (!is_numeric($datos['documento'])) {
-                echo "El campo documento debe ser numérico.";
-                return;
-            }
-
-            if (!strtotime($datos['fecha_nacimiento'])) {
-                echo "El campo fecha de nacimiento no es válido.";
-                return;
-            }
-
             try {
-                $this->model->actualizarAprendiz($id, $datos);
+                $this->model->actualizarAprendiz($datos);
                 header('Location: ../index.php');
                 exit;
             } catch (Exception $e) {
                 echo "Error al actualizar aprendiz: " . $e->getMessage();
             }
-        } else {
-            require '../View/actualizar.php';
         }
     }
 
@@ -94,7 +75,6 @@ class ControllerAprendices
                 return;
             }
             header('location: ../index.php');
-            
         } catch (Exception $e) {
             echo "Error al listar aprendices: " . $e->getMessage();
         }
@@ -182,4 +162,3 @@ class ControllerAprendices
 
 $controller = new ControllerAprendices();
 $controller->manejarSolicitud();
-

@@ -24,7 +24,8 @@ if ($id_aprendiz) {
     header('Location: ../Controller/ControllerAprendices.php?action=listaAprendices&status=error');
     exit;
 }
-print_r($aprendiz); // Debugging line to check the $aprendiz variable
+print_r($aprendiz);
+
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +44,7 @@ print_r($aprendiz); // Debugging line to check the $aprendiz variable
         <h2 class="mb-4 text-center text-primary">Actualizar Aprendiz</h2>
 
         <form action="../Controller/ControllerAprendices.php?action=actualizar" method="POST" class="bg-white p-4 rounded shadow-sm">
-            <input type="hidden" name="id" value="<?= htmlspecialchars($aprendiz['id_aprendiz'] ?? '') ?>">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($aprendiz['id_persona'] ?? '') ?>">
 
             <div class="row mb-3">
                 <div class="col-3 mb-3">
@@ -66,6 +67,7 @@ print_r($aprendiz); // Debugging line to check the $aprendiz variable
                     <input type="text" class="form-control" id="segundo_apellido" name="segundo_apellido" value="<?php echo $aprendiz['segundo_apellido']?>">
                 </div>
             </div>
+
             <div class="row mb-3">
                 <div class="col-3 mb-3">
                     <label for="tipo_documento" class="form-label">Tipo de Documento</label>

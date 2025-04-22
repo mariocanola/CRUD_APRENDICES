@@ -14,7 +14,7 @@ class ControllerAprendices
 
     public function manejarSolicitud()
     {
-        $allowedActions = ['listaAprendices', 'almacenar', 'eliminar', 'actualizar'];
+        $allowedActions = ['listaAprendices', 'almacenar', 'delete', 'actualizar'];
         $action = $_GET['action'] ?? 'listaAprendices';
 
         if (!in_array($action, $allowedActions)) {
@@ -34,7 +34,7 @@ class ControllerAprendices
                 $this->actualizarAprendiz();
                 break;
 
-            case 'eliminar':
+            case 'delete':
                 $this->eliminarAprendiz();
                 break;
         }

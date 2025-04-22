@@ -1,40 +1,70 @@
+<?php
+
+require_once 'model/aprendices.php';
+require_once 'model/conexion.php';
+
+$aprendizModel = new Aprendices();
+$aprendices = $aprendizModel->obtenerAprendices();
+?>
+
 <!doctype html>
 <html lang="es">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SENA || Home</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <title>Lista || aprendices || Sena</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/03a89292db.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div class="container">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col">
-                    <h1 class="text-center">Lista de Aprendices</h1>
-                    <table class="table table-sm table-hover table-responsive">
-                        <thead>
-                            <tr class="text-center">
-                                <th scope="col">No.</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Programa de formación</th>
-                                <th scope="col">Documento</th>
-                                <th colspan="3" scope="col">Opciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+    <div class="container mt-4">
+        <div class="text-center alert alert-primary">Lista de aprendices</div>
+        <div class="mb-3 text-center">
+            <a href="/CRUD_APRENDICES/view/crear.php"  target="_blank" class="btn btn-success">
+                <i class="fas fa-user-plus"></i> Crear nueva persona
+            </a>
         </div>
+
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre completo</th>
+                    <th scope="col">Programa</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+            
+                <?php 
+                    if (!empty($aprendices))
+                    foreach ($aprendices as $datos): ?>
+                        <tr>
+                            <td><?php echo $datos['id_persona']; ?></td>
+                            <td><?php echo $datos['nombre_completo']; ?></td>
+                            <td><?php echo $datos['programa']; ?></td>
+                            <td>
+                                <a href="view/ver.php?id=<?= $datos['id_persona'] ?>" target="_blank" class="btn btn-success">
+                                    <i class="fas fa-eye"></i> Ver
+                                </a>
+
+                                <a href="view/actualizar.php?action=actualizar&id=<?= $datos['id_persona'] ?>" target="_blank" class="btn btn-warning">
+                                    <i class="fas fa-user-edit"></i> Editar
+                                </a>
+
+                                <a href="controllers/ControllerAprendiz.php?action=delete&id=<?= $datos['id_persona'] ?>"
+                                    onclick="return confirm('¿Seguro que deseas eliminar este aprendiz?')"
+                                    class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </body>
 
 </html>

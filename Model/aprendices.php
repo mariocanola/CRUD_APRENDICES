@@ -49,7 +49,7 @@ class Aprendices
         } catch (PDOException $e) {
             echo "Error al eliminar aprendiz: " . $e->getMessage();
             return false;
-        }               
+        }
     }
 
     public function insertarAprendiz($id_persona)
@@ -173,7 +173,38 @@ class Aprendices
             exit;
         }
     }
+
+    public function obtenerInformacionAprendiz($id)
+    {
+        $sql = "SELECT 
+                    a.id_aprendiz,
+                    per.documento,
+                    per.primer_nombre,
+                    per.segundo_nombre,
+                    per.primer_apellido,
+                    per.segundo_apellido,
+                    per.fecha_nacimiento,
+                    td.nombre AS tipo_documento,
+                    s.nombre AS sexo,
+                    ts.nombre AS tipo_sangre,
+                    p.nombre AS programa,
+                    r.nombre AS rol
+                FROM aprendiz a
+                INNER JOIN persona per ON a.id_persona = per.id_persona
+                INNER JOIN rol_persona rp ON per.id_persona = rp.id_persona
+                INNER JOIN tipo_documento td ON per.id_tipo_documento = td.id_tipo_documento
+                INNER JOIN sexo s ON per.id_sexo = s.id_sexo
+                INNER JOIN tipo_sangre ts ON per.id_sanguineo = ts.id_sanguineo
+                INNER JOIN aprendiz_programa ap ON a.id_aprendiz = ap.id_aprendiz
+                INNER JOIN programa p ON ap.id_programa = p.id_programa
+                INNER JOIN rol r ON rp.id_rol = r.id_rol
+                WHERE a.id_aprendiz = ?";
     
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function obtenerAprendizPorID($id_aprendiz)
     {
         $sql = "SELECT * FROM aprendiz WHERE id_aprendiz = :id_aprendiz";
@@ -182,7 +213,7 @@ class Aprendices
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    
+
     public function obtenerUltimoId()
     {
         try {
@@ -206,6 +237,44 @@ class Aprendices
         } catch (PDOException $e) {
             echo "Error al obtener el último ID: " . $e->getMessage();
             return null;
+        }
+    }
+
+    public function modificarAprendiz($datos)
+    {
+            try {
+                // Actualizar los datos de la persona
+                $sqlPersona = "UPDATE persona 
+                    SET primer_nombre = :primer_nombre, 
+                        segundo_nombre = :segundo_nombre, 
+                        primer_apellido = :primer_apellido, 
+                        segundo_apellido = :segundo_apellido, 
+                        id_tipo_documento = :id_tipo_documento, 
+                        documento = :documento, 
+                        fecha_nacimiento = :fecha_nacimiento, 
+                        id_sanguineo = :id_sanguineo, 
+                        id_sexo = :id_sexo 
+                    WHERE id_persona = :id_persona";
+
+                $stmtPersona = $this->db->prepare($sqlPersona);
+                $stmtPersona->bindParam(':primer_nombre', $datos['primer_nombre'], PDO::PARAM_STR);
+                $stmtPersona->bindParam(':segundo_nombre', $datos['segundo_nombre'], PDO::PARAM_STR);
+                $stmtPersona->bindParam(':primer_apellido', $datos['primer_apellido'], PDO::PARAM_STR);
+                $stmtPersona->bindParam(':segundo_apellido', $datos['segundo_apellido'], PDO::PARAM_STR);
+                $stmtPersona->bindParam(':id_tipo_documento', $datos['id_tipo_documento'], PDO::PARAM_INT);
+                $stmtPersona->bindParam(':documento', $datos['documento'], PDO::PARAM_STR);
+                $stmtPersona->bindParam(':fecha_nacimiento', $datos['fecha_nacimiento'], PDO::PARAM_STR);
+                $stmtPersona->bindParam(':id_sanguineo', $datos['id_sanguineo'], PDO::PARAM_INT);
+                $stmtPersona->bindParam(':id_sexo', $datos['id_sexo'], PDO::PARAM_INT);
+                $stmtPersona->bindParam(':id_persona', $datos['id_persona'], PDO::PARAM_INT);
+                $stmtPersona->execute();
+
+                return true;
+            } catch (PDOException $e) {
+            return true;
+        } catch (PDOException $e) {
+            echo "Error al modificar aprendiz: " . $e->getMessage();
+            return false;
         }
     }
 }

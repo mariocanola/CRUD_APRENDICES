@@ -50,7 +50,7 @@ $aprendices = $aprendizModel->obtenerAprendices();
                                     <i class="fas fa-eye"></i> Ver
                                 </a>
 
-                                <a href="../view/actualizar.php?id=<?= $datos['id_persona'] ?>" target="_blank" class="btn btn-warning">
+                                <a href="view/actualizar.php?id=<?= $datos['id_persona'] ?>" target="_blank" class="btn btn-warning">
                                     <i class="fas fa-user-edit"></i> Editar
                                 </a>
 

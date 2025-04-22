@@ -40,18 +40,17 @@ class Aprendices
     public function eliminarAprendiz($id_persona)
     {
         try {
-            // Eliminar el aprendiz de la tabla 'aprendiz'
+            // Eliminar aprendiz
             $sql = "DELETE FROM aprendiz WHERE id_persona = :id_persona";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':id_persona', $id_persona, PDO::PARAM_INT);
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            echo "Error al eliminar aprendiz de la tabla 'aprendiz': " . $e->getMessage();
+            echo "Error al eliminar aprendiz: " . $e->getMessage();
             return false;
         }
     }
-
 
     public function insertarAprendiz($id_persona)
     {
@@ -70,23 +69,10 @@ class Aprendices
     {
         try {
             $sql = "UPDATE persona 
-                SET 
-                    primer_nombre = :primer_nombre,
-                    segundo_nombre = :segundo_nombre,
-                    primer_apellido = :primer_apellido,
-                    segundo_apellido = :segundo_apellido,
-                    id_tipo_documento = :id_tipo_documento,
-                    documento = :documento,
-                    fecha_nacimiento = :fecha_nacimiento,
-                    id_sanguineo = :id_sanguineo,
-                    id_sexo = :id_sexo,
-                    actualizado = CURRENT_TIMESTAMP
-                WHERE id_persona = :id_persona";
+                SET primer_nombre = :primer_nombre, segundo_nombre = :segundo_nombre, primer_apellido = :primer_apellido,segundo_apellido = :segundo_apellido, id_tipo_documento = :id_tipo_documento, documento = :documento, fecha_nacimiento = :fecha_nacimiento, id_sanguineo = :id_sanguineo, id_sexo = :id_sexo WHERE id_persona = :id_persona";
 
             $stmt = $this->db->prepare($sql);
 
-            // Verifica si 'id_aprendiz' realmente representa 'id_persona'
-            $stmt->bindParam(':id_persona', $datos['id_aprendiz'], PDO::PARAM_INT);
             $stmt->bindParam(':primer_nombre', $datos['primer_nombre'], PDO::PARAM_STR);
             $stmt->bindParam(':segundo_nombre', $datos['segundo_nombre'], PDO::PARAM_STR);
             $stmt->bindParam(':primer_apellido', $datos['primer_apellido'], PDO::PARAM_STR);
@@ -96,6 +82,7 @@ class Aprendices
             $stmt->bindParam(':fecha_nacimiento', $datos['fecha_nacimiento'], PDO::PARAM_STR);
             $stmt->bindParam(':id_sanguineo', $datos['id_sanguineo'], PDO::PARAM_INT);
             $stmt->bindParam(':id_sexo', $datos['id_sexo'], PDO::PARAM_INT);
+            $stmt->bindParam(':id_persona', $datos['id_persona'], PDO::PARAM_INT);
 
             return $stmt->execute();
         } catch (PDOException $e) {
@@ -103,7 +90,6 @@ class Aprendices
             return false;
         }
     }
-
 
     public function obtenerAprendices()
     {
@@ -191,7 +177,6 @@ class Aprendices
     public function obtenerInformacionAprendiz($id)
     {
         $sql = "SELECT 
-                    per.id_persona,
                     a.id_aprendiz,
                     per.documento,
                     per.primer_nombre,
@@ -214,7 +199,7 @@ class Aprendices
                 INNER JOIN programa p ON ap.id_programa = p.id_programa
                 INNER JOIN rol r ON rp.id_rol = r.id_rol
                 WHERE a.id_aprendiz = ?";
-
+    
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -248,32 +233,35 @@ class Aprendices
 
     public function modificarAprendiz($datos)
     {
-        try {
-            $sqlPersona = "UPDATE persona 
+            try {
+                // Actualizar los datos de la persona
+                $sqlPersona = "UPDATE persona 
                     SET primer_nombre = :primer_nombre, 
                         segundo_nombre = :segundo_nombre, 
                         primer_apellido = :primer_apellido, 
                         segundo_apellido = :segundo_apellido, 
-                        id_tipo_documento = :tipo_documento, 
+                        id_tipo_documento = :id_tipo_documento, 
                         documento = :documento, 
                         fecha_nacimiento = :fecha_nacimiento, 
                         id_sanguineo = :id_sanguineo, 
                         id_sexo = :id_sexo 
                     WHERE id_persona = :id_persona";
 
-            $stmtPersona = $this->db->prepare($sqlPersona);
-            $stmtPersona->bindParam(':primer_nombre', $datos['primer_nombre'], PDO::PARAM_STR);
-            $stmtPersona->bindParam(':segundo_nombre', $datos['segundo_nombre'], PDO::PARAM_STR);
-            $stmtPersona->bindParam(':primer_apellido', $datos['primer_apellido'], PDO::PARAM_STR);
-            $stmtPersona->bindParam(':segundo_apellido', $datos['segundo_apellido'], PDO::PARAM_STR);
-            $stmtPersona->bindParam(':tipo_documento', $datos['id_tipo_documento'], PDO::PARAM_INT);
-            $stmtPersona->bindParam(':documento', $datos['documento'], PDO::PARAM_STR);
-            $stmtPersona->bindParam(':fecha_nacimiento', $datos['fecha_nacimiento'], PDO::PARAM_STR);
-            $stmtPersona->bindParam(':id_sanguineo', $datos['id_sanguineo'], PDO::PARAM_INT);
-            $stmtPersona->bindParam(':id_sexo', $datos['id_sexo'], PDO::PARAM_INT);
-            $stmtPersona->bindParam(':id_persona', $datos['id_persona'], PDO::PARAM_INT);
-            $stmtPersona->execute();
-        } catch (PDOException $e) {
+                $stmtPersona = $this->db->prepare($sqlPersona);
+                $stmtPersona->bindParam(':primer_nombre', $datos['primer_nombre'], PDO::PARAM_STR);
+                $stmtPersona->bindParam(':segundo_nombre', $datos['segundo_nombre'], PDO::PARAM_STR);
+                $stmtPersona->bindParam(':primer_apellido', $datos['primer_apellido'], PDO::PARAM_STR);
+                $stmtPersona->bindParam(':segundo_apellido', $datos['segundo_apellido'], PDO::PARAM_STR);
+                $stmtPersona->bindParam(':id_tipo_documento', $datos['id_tipo_documento'], PDO::PARAM_INT);
+                $stmtPersona->bindParam(':documento', $datos['documento'], PDO::PARAM_STR);
+                $stmtPersona->bindParam(':fecha_nacimiento', $datos['fecha_nacimiento'], PDO::PARAM_STR);
+                $stmtPersona->bindParam(':id_sanguineo', $datos['id_sanguineo'], PDO::PARAM_INT);
+                $stmtPersona->bindParam(':id_sexo', $datos['id_sexo'], PDO::PARAM_INT);
+                $stmtPersona->bindParam(':id_persona', $datos['id_persona'], PDO::PARAM_INT);
+                $stmtPersona->execute();
+
+                return true;
+            } catch (PDOException $e) {
             return true;
         } catch (PDOException $e) {
             echo "Error al modificar aprendiz: " . $e->getMessage();

@@ -112,7 +112,7 @@ if ($id_aprendiz) {
             </div>
 
             <button type="submit" class="btn btn-primary">Actualizar</button>
-            <a href="ControllerAprendices.php?action=listaAprendices" class="btn btn-secondary">Cancelar</a>
+            <a href="../index.php" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 

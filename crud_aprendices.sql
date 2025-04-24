@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.4.3, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 --
 -- Host: localhost    Database: crud_aprendices
 -- ------------------------------------------------------
--- Server version	8.4.3
+-- Server version	8.0.30
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -30,7 +30,7 @@ CREATE TABLE `aprendiz` (
   PRIMARY KEY (`id_aprendiz`),
   KEY `aprendiz_ibfk_1` (`id_persona`),
   CONSTRAINT `aprendiz_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -58,7 +58,7 @@ CREATE TABLE `aprendiz_programa` (
   KEY `aprendiz_programa_ibfk_2` (`id_aprendiz`),
   CONSTRAINT `aprendiz_programa_ibfk_1` FOREIGN KEY (`id_programa`) REFERENCES `programa` (`id_programa`),
   CONSTRAINT `aprendiz_programa_ibfk_2` FOREIGN KEY (`id_aprendiz`) REFERENCES `aprendiz` (`id_aprendiz`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,7 +97,7 @@ CREATE TABLE `persona` (
   CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`id_tipo_documento`) REFERENCES `tipo_documento` (`id_tipo_documento`),
   CONSTRAINT `persona_ibfk_2` FOREIGN KEY (`id_sanguineo`) REFERENCES `tipo_sangre` (`id_sanguineo`),
   CONSTRAINT `persona_ibfk_3` FOREIGN KEY (`id_sexo`) REFERENCES `sexo` (`id_sexo`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,7 +106,6 @@ CREATE TABLE `persona` (
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES (1,'Juan','Carlos','Pérez','Gómez',1,'12345678','1990-05-15',1,1,'2025-04-22 01:51:20','2025-04-22 01:51:20'),(2,'María','José','Lopez','Martínez',2,'87654321','1985-08-22',2,2,'2025-04-22 01:51:20','2025-04-22 01:51:20'),(3,'Juan','Carlos','Pérez','Gómez',1,'12345678','1990-05-15',1,1,'2025-04-22 01:51:25','2025-04-22 01:51:25'),(4,'María','José','Lopez','Martínez',2,'87654321','1985-08-22',2,2,'2025-04-22 01:51:25','2025-04-22 01:51:25'),(5,'mario','alexandra','cañala','cana',2,'1120564168','8444-05-12',3,2,'2025-04-22 02:22:19','2025-04-22 02:22:19'),(6,'mario','alexandra','cañala','cana',2,'1120564168','8444-05-12',3,2,'2025-04-22 02:22:44','2025-04-22 02:22:44'),(7,'cristian','alexandra','camacho','cana',2,'1123338478','2025-04-22',7,1,'2025-04-22 05:25:01','2025-04-22 05:25:01');
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,9 +173,9 @@ CREATE TABLE `rol_persona` (
   PRIMARY KEY (`id_rol_persona`),
   KEY `id_persona` (`id_persona`),
   KEY `id_rol` (`id_rol`),
-  CONSTRAINT `rol_persona_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`),
+  CONSTRAINT `rol_persona_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`) ON DELETE CASCADE,
   CONSTRAINT `rol_persona_ibfk_2` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id_rol`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +184,6 @@ CREATE TABLE `rol_persona` (
 
 LOCK TABLES `rol_persona` WRITE;
 /*!40000 ALTER TABLE `rol_persona` DISABLE KEYS */;
-INSERT INTO `rol_persona` VALUES (2,1,1),(3,2,1),(4,3,1);
 /*!40000 ALTER TABLE `rol_persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -247,10 +245,7 @@ DROP TABLE IF EXISTS `tipo_sangre`;
 CREATE TABLE `tipo_sangre` (
   `id_sanguineo` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `factor_sanguineo` enum('+','-') NOT NULL,
-  `descripcion` varchar(5) DEFAULT NULL,
-  PRIMARY KEY (`id_sanguineo`),
-  UNIQUE KEY `descripcion` (`descripcion`)
+  PRIMARY KEY (`id_sanguineo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -260,7 +255,7 @@ CREATE TABLE `tipo_sangre` (
 
 LOCK TABLES `tipo_sangre` WRITE;
 /*!40000 ALTER TABLE `tipo_sangre` DISABLE KEYS */;
-INSERT INTO `tipo_sangre` VALUES (1,'A','+','A+'),(2,'A','-','A-'),(3,'B','+','B+'),(4,'B','-','B-'),(5,'AB','+','AB+'),(6,'AB','-','AB-'),(7,'O','+','O+'),(8,'O','-','O-');
+INSERT INTO `tipo_sangre` VALUES (1,'A-'),(2,'A+'),(3,'B-'),(4,'B+'),(5,'AB-'),(6,'AB+'),(7,'O-'),(8,'O+');
 /*!40000 ALTER TABLE `tipo_sangre` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -273,4 +268,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-22  0:28:38
+-- Dump completed on 2025-04-24 14:42:59

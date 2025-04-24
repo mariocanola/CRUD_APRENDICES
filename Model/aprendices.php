@@ -69,10 +69,22 @@ class Aprendices
     {
         try {
             $sql = "UPDATE persona 
-                SET primer_nombre = :primer_nombre, segundo_nombre = :segundo_nombre, primer_apellido = :primer_apellido,segundo_apellido = :segundo_apellido, id_tipo_documento = :id_tipo_documento, documento = :documento, fecha_nacimiento = :fecha_nacimiento, id_sanguineo = :id_sanguineo, id_sexo = :id_sexo WHERE id_persona = :id_persona";
+                SET 
+                    primer_nombre = :primer_nombre, 
+                    segundo_nombre = :segundo_nombre, 
+                    primer_apellido = :primer_apellido,
+                    segundo_apellido = :segundo_apellido, 
+                    id_tipo_documento = :id_tipo_documento, 
+                    documento = :documento, 
+                    fecha_nacimiento = :fecha_nacimiento, 
+                    id_sanguineo = :id_sanguineo, 
+                    id_sexo = :id_sexo,
+                    actualizado = CURRENT_TIMESTAMP
+                WHERE id_persona = :id_persona";
 
             $stmt = $this->db->prepare($sql);
 
+            $stmt->bindParam(':id_persona', $datos['id_aprendiz'], PDO::PARAM_INT);
             $stmt->bindParam(':primer_nombre', $datos['primer_nombre'], PDO::PARAM_STR);
             $stmt->bindParam(':segundo_nombre', $datos['segundo_nombre'], PDO::PARAM_STR);
             $stmt->bindParam(':primer_apellido', $datos['primer_apellido'], PDO::PARAM_STR);
@@ -82,7 +94,6 @@ class Aprendices
             $stmt->bindParam(':fecha_nacimiento', $datos['fecha_nacimiento'], PDO::PARAM_STR);
             $stmt->bindParam(':id_sanguineo', $datos['id_sanguineo'], PDO::PARAM_INT);
             $stmt->bindParam(':id_sexo', $datos['id_sexo'], PDO::PARAM_INT);
-            $stmt->bindParam(':id_persona', $datos['id_persona'], PDO::PARAM_INT);
 
             return $stmt->execute();
         } catch (PDOException $e) {
@@ -176,7 +187,8 @@ class Aprendices
 
     public function obtenerInformacionAprendiz($id)
     {
-        $sql = "SELECT 
+        $sql = "SELECT
+                    per.id_persona,
                     a.id_aprendiz,
                     per.documento,
                     per.primer_nombre,
@@ -240,7 +252,7 @@ class Aprendices
                         segundo_nombre = :segundo_nombre, 
                         primer_apellido = :primer_apellido, 
                         segundo_apellido = :segundo_apellido, 
-                        id_tipo_documento = :id_tipo_documento, 
+                        id_tipo_documento = :tipo_documento, 
                         documento = :documento, 
                         fecha_nacimiento = :fecha_nacimiento, 
                         id_sanguineo = :id_sanguineo, 
@@ -252,7 +264,7 @@ class Aprendices
                 $stmtPersona->bindParam(':segundo_nombre', $datos['segundo_nombre'], PDO::PARAM_STR);
                 $stmtPersona->bindParam(':primer_apellido', $datos['primer_apellido'], PDO::PARAM_STR);
                 $stmtPersona->bindParam(':segundo_apellido', $datos['segundo_apellido'], PDO::PARAM_STR);
-                $stmtPersona->bindParam(':id_tipo_documento', $datos['id_tipo_documento'], PDO::PARAM_INT);
+                $stmtPersona->bindParam(':tipo_documento', $datos['id_tipo_documento'], PDO::PARAM_INT);
                 $stmtPersona->bindParam(':documento', $datos['documento'], PDO::PARAM_STR);
                 $stmtPersona->bindParam(':fecha_nacimiento', $datos['fecha_nacimiento'], PDO::PARAM_STR);
                 $stmtPersona->bindParam(':id_sanguineo', $datos['id_sanguineo'], PDO::PARAM_INT);

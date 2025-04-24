@@ -43,12 +43,12 @@ class ControllerAprendices
     public function actualizarAprendiz()
     {
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
-            $id = $_POST['id'] ?? null;
             $datos = [
-                'primer_nombre' => $_POST['primer_nombre'] ?? '',
-                'segundo_nombre' => $_POST['segundo_nombre'] ?? '',
-                'primer_apellido' => $_POST['primer_apellido'] ?? '',
-                'segundo_apellido' => $_POST['segundo_apellido'] ?? '',
+                'id_aprendiz'       => $_POST['id'] ?? null,
+                'primer_nombre'     => $_POST['primer_nombre'] ?? '',
+                'segundo_nombre'    => $_POST['segundo_nombre'] ?? '',
+                'primer_apellido'   => $_POST['primer_apellido'] ?? '',
+                'segundo_apellido'  => $_POST['segundo_apellido'] ?? '',
                 'id_tipo_documento' => $_POST['tipo_documento'] ?? '',
                 'documento' => $_POST['documento'] ?? '',
                 'id_sexo' => $_POST['id_sexo'] ?? '',
@@ -56,25 +56,8 @@ class ControllerAprendices
                 'id_sanguineo' => $_POST['id_sanguineo'] ?? ''
             ];
 
-            foreach ($datos as $key => $value) {
-                if (empty($value)) {
-                    echo "El campo $key es obligatorio.";
-                    return;
-                }
-            }
-
-            if (!is_numeric($datos['documento'])) {
-                echo "El campo documento debe ser numérico.";
-                return;
-            }
-
-            if (!strtotime($datos['fecha_nacimiento'])) {
-                echo "El campo fecha de nacimiento no es válido.";
-                return;
-            }
-
             try {
-                $this->model->actualizarAprendiz($id, $datos);
+                $this->model->actualizarAprendiz($datos);
                 header('Location: ../index.php');
                 exit;
             } catch (Exception $e) {
@@ -137,7 +120,11 @@ class ControllerAprendices
             try {
                 $this->model->crearPersona($datos);
                 $id_persona = $this->model->obtenerUltimoId();
-                $this->model->insertarAprendiz($id_persona);
+                print_r($id_persona);
+                if ($id_persona) {
+                    $this->model->insertarAprendiz($id_persona);    
+                    // throw new Exception("Error al obtener el último ID de persona.");
+                }
                 $id_aprendiz = $this->model->obtenerUltimoIdAprendiz();
                 $this->model->asociarRolPersona($id_aprendiz, $datos['id_rol']);
                 $this->model->asociarAprendizPrograma($id_aprendiz, $datos['id_programa']);

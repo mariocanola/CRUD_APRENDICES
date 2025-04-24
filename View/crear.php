@@ -134,7 +134,7 @@ $programas = $model->obtenerProgramas();
             <button type="submit" class="btn btn-primary">
                 <i class="fas fa-save"></i> Guardar
             </button>
-            <a href="ControllerAprendices.php?action=listaAprendices" class="btn btn-secondary">Cancelar</a>
+            <a href="../index.php" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 
